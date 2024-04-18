@@ -2,7 +2,7 @@ import argparse
 from train import trainer
 parser = argparse.ArgumentParser(description='Process some integers.')
 
-parser.add_argument('--model_name', type=str, help='model name', default="facebook/bart")
+parser.add_argument('--model_name', type=str, help='model name', default="bert-base-multilingual-cased")
 parser.add_argument('--dataset_tag', type=str, help='dataset tag', default="IndicHeadlineGeneration")
 parser.add_argument('--run_name', type=str, help='run name', default="run1")
 parser.add_argument('--learning_rate', type=float, help='learning rate', default=5e-5)
@@ -16,4 +16,3 @@ args = parser.parse_args()
 if __name__ == "__main__":
     trainer = trainer(vars(args))
     trainer.run()
-    
