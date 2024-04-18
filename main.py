@@ -1,4 +1,8 @@
+import os
 import argparse
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 from train import trainer
 parser = argparse.ArgumentParser(description='Process some integers.')
 
