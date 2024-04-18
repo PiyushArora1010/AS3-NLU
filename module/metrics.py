@@ -6,10 +6,3 @@ metricDic = {
     'meteor': evaluate.load('meteor'),
     'cider': evaluate.load('cider')
 }
-
-metric = metricDic['bleu']
-metric = metricDic['rouge']
-metric = metricDic['meteor']
-metric = metricDic['cider']
-
-print(metric)
