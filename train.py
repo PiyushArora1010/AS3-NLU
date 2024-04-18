@@ -19,8 +19,8 @@ class trainer:
         
         try:
             os.makedirs(f"{self.log_dir}{self.run_name}")
-        except Exception as e:
-            print(e)
+        except:
+            print(f"{self.log_dir}{self.run_name} already exists")
 
     def _setModel(self):
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name).to(device)
