@@ -1,11 +1,14 @@
 import os
 
 import torch
+
+
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
 from transformers import DataCollatorForSeq2Seq
 
 from module.data import IndicHeadlineGenerationData
+from module.metrics import metricDic
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -29,7 +32,12 @@ class trainer:
         else:
             raise NotImplementedError("Dataset not implemented")
         
-        self.datacollator = DataCollatorForSeq2Seq(self.tokenizer, model=self.model)
+        self.datacollator = DataCollatorForSeq2Seq(
+            self.tokenizer, 
+            model=self.model,
+            padding='max_length',
+            max_length=256,
+            )
         
     def _setTrainingArgs(self):
         self.training_args = Seq2SeqTrainingArguments(
@@ -43,7 +51,14 @@ class trainer:
             num_train_epochs=self.epochs,
             predict_with_generate=True,
             logging_dir=f"{self.log_dir}{self.run_name}",
+            dataloader_num_workers=self.num_workers,
+            load_best_model_at_end = True,
+            save_strategy='epoch',
+            logging_strategy='steps',
         )
+
+    def _setMetric(self):
+        self.metric = metricDic[self.metric]
     
     def _train(self):
         self.trainer = Seq2SeqTrainer(
@@ -52,7 +67,8 @@ class trainer:
             data_collator=self.datacollator,
             tokenizer=self.tokenizer,
             train_dataset=self.traindataset,
-            eval_dataset=self.valdataset,
+            eval_dataset=self.testdataset,
+            compute_metrics=self.metric.compute
         )
         
         self.trainer.train()
@@ -61,4 +77,5 @@ class trainer:
         self._setModel()
         self._setDataset()
         self._setTrainingArgs()
+        self._setMetric()
         self._train()
