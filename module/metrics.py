@@ -1,11 +1,15 @@
-import datasets
+import evaluate
 
 metricDic = {
-    "rouge": datasets.load_metric("rouge"),
-    "bleu": datasets.load_metric("sacrebleu"),
-    "meteor": datasets.load_metric("meteor"),
-    "sari": datasets.load_metric("sari"),
-    "bertscore": datasets.load_metric("bertscore"),
-    "bleurt": datasets.load_metric("bleurt"),
-    "indic": datasets.load_metric("indic")
+    'rouge': evaluate.load('rouge'),
+    'bleu': evaluate.load('bleu'),
+    'meteor': evaluate.load('meteor'),
+    'cider': evaluate.load('cider')
 }
+
+metric = metricDic['bleu']
+metric = metricDic['rouge']
+metric = metricDic['meteor']
+metric = metricDic['cider']
+
+print(metric)
