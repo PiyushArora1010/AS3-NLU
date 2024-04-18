@@ -3,8 +3,8 @@ from datasets import load_dataset
 def tokenize_data_headline(tokenizer, example):
     source = example['input']
     target = example['target']
-    source = tokenizer(source)
-    target = tokenizer(target)
+    source = tokenizer(source, truncation=True, padding='max_length', max_length=256)
+    target = tokenizer(target, truncation=True, padding='max_length', max_length=256)
     return {'input_ids': source.input_ids, 'attention_mask': source.attention_mask, 'labels': target.input_ids}
 
 
