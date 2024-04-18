@@ -1,3 +1,5 @@
+import os
+
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
@@ -11,6 +13,11 @@ class trainer:
     def __init__(self, args):
         for key, value in args.items():
             setattr(self, key, value)
+        
+        try:
+            os.makedirs(f"{self.log_dir}{self.run_name}")
+        except Exception as e:
+            print(e)
 
     def _setModel(self):
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name).to(device)
