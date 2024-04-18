@@ -1,5 +1,7 @@
-import evaluate
+import datasets
 
 metricDic = {
-    'bleu': evaluate.load('bleu'),
+    "rouge": datasets.load_metric("rouge"),
+    "bleu": datasets.load_metric("sacrebleu"),
+    "meteor": datasets.load_metric("meteor"),
 }

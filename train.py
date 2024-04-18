@@ -43,6 +43,7 @@ class trainer:
         self.training_args = Seq2SeqTrainingArguments(
             f"{self.run_name}",
             evaluation_strategy = "epoch",
+            optim=torch.optim.AdamW,
             learning_rate=self.learning_rate,
             per_device_train_batch_size=self.batch_size,
             per_device_eval_batch_size=self.batch_size,

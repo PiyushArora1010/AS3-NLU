@@ -3,6 +3,9 @@ import argparse
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+import warnings
+warnings.filterwarnings("ignore")
+
 from train import trainer
 parser = argparse.ArgumentParser(description='Process some integers.')
 
@@ -14,8 +17,8 @@ parser.add_argument('--batch_size', type=int, help='batch size', default=64)
 parser.add_argument('--weight_decay', type=float, help='weight decay', default=0.01)
 parser.add_argument('--epochs', type=int, help='epochs', default=50)
 parser.add_argument('--log_dir', type=str, help='log dir', default="logs/")
-parser.add_argument('--num_workers', type=int, help='num workers', default=4)
-parser.add_argument('--metric', type=str, help='metric', default="rouge")
+parser.add_argument('--num_workers', type=int, help='num workers', default=1)
+parser.add_argument('--metric', type=str, help='metric', default="bleu")
 
 args = parser.parse_args()
 
