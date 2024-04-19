@@ -19,6 +19,7 @@ parser.add_argument('--epochs', type=int, help='epochs', default=50)
 parser.add_argument('--log_dir', type=str, help='log dir', default="logs/")
 parser.add_argument('--num_workers', type=int, help='num workers', default=4)
 parser.add_argument('--metric', type=str, help='metric', default="bleu")
+parser.add_argument('--samples', type=int, help='samples', default=1000)
 
 args = parser.parse_args()
 

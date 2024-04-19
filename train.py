@@ -28,7 +28,7 @@ class trainer:
     
     def _setDataset(self):
         if self.dataset_tag == "IndicHeadlineGeneration":
-            self.traindataset, self.valdataset, self.testdataset = IndicHeadlineGenerationData(self.tokenizer)
+            self.traindataset, self.valdataset, self.testdataset = IndicHeadlineGenerationData(self.tokenizer, self.samples)
         else:
             raise NotImplementedError("Dataset not implemented")
         
@@ -86,4 +86,3 @@ class trainer:
         print("[Training]")
         self._train()
         print("[Training Done]")
-        
