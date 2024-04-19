@@ -75,8 +75,15 @@ class trainer:
         self.trainer.train()
 
     def run(self):
+        print("[Setting Model]")
         self._setModel()
+        print("[Setting Dataset]")
         self._setDataset()
+        print("[Setting Training Args]")
         self._setTrainingArgs()
+        print("[Setting Metric]")
         self._setMetric()
+        print("[Training]")
         self._train()
+        print("[Training Done]")
+        
