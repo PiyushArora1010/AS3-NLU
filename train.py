@@ -5,7 +5,7 @@ import torch
 
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
-from transformers import EncoderDecoderModel
+from transformers import EncoderDecoderModel, BertGenerationEncoder, BertGenerationDecoder
 from transformers import DataCollatorForSeq2Seq
 
 from module.data import IndicHeadlineGenerationData
@@ -24,8 +24,10 @@ class trainer:
             print(f"{self.log_dir}{self.run_name} already exists")
 
     def _setModel(self):
-        if self.model_name == 'bert-base-uncased':
-            self.model = EncoderDecoderModel.from_encoder_decoder_pretrained("google-bert/bert-base-uncased", "google-bert/bert-base-uncased").to(device)
+        if 'bert' in self.model_name:
+            encoder = BertGenerationEncoder.from_pretrained(self.model_name, bos_token_id=101, eos_token_id=102)
+            decoder = BertGenerationDecoder.from_pretrained(self.model_name, add_cross_attention=True, is_decoder=True, bos_token_id=101, eos_token_id=102)
+            self.model = EncoderDecoderModel(encoder=encoder, decoder=decoder).to(device)
         else:
             self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name).to(device)
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
