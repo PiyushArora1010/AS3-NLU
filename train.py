@@ -72,7 +72,10 @@ class trainer:
             decoded_preds = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_pred]
             decoded_labels = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_labels]
 
-            return self.metric.compute(predictions=decoded_preds, references=decoded_labels)
+            try:
+                return self.metric.compute(predictions=decoded_preds, references=decoded_labels)
+            except:
+                return {"error": "error"}
         
         self.trainer = Seq2SeqTrainer(
             model=self.model,
