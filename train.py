@@ -66,16 +66,15 @@ class trainer:
 
         def compute_metrics(eval_pred):
             predictions, labels = eval_pred
-            decode_pred = self.tokenizer.batch_decode(predictions, skip_special_tokens=True)
-            decode_labels = self.tokenizer.batch_decode(labels, skip_special_tokens=True)
+            # decode_pred = self.tokenizer.batch_decode(predictions, skip_special_tokens=True)
+            # decode_labels = self.tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-            decoded_preds = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_pred]
-            decoded_labels = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_labels]
+            # decoded_preds = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_pred]
+            # decoded_labels = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_labels]
 
-            try:
-                return self.metric.compute(predictions=decoded_preds, references=decoded_labels)
-            except:
-                return {"error": "error"}
+
+            return self.metric.compute(predictions=predictions, references=labels)
+
         
         self.trainer = Seq2SeqTrainer(
             model=self.model,
