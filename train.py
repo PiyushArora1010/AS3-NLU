@@ -1,5 +1,5 @@
 import os
-
+import nltk
 import torch
 
 
@@ -61,7 +61,19 @@ class trainer:
     def _setMetric(self):
         self.metric = metricDic[self.metric]
     
+
     def _train(self):
+
+        def compute_metrics(eval_pred):
+            predictions, labels = eval_pred
+            decode_pred = self.tokenizer.batch_decode(predictions, skip_special_tokens=True)
+            decode_labels = self.tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+            decoded_preds = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_pred]
+            decoded_labels = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_labels]
+
+            return self.metric.compute(decoded_preds, decoded_labels)
+        
         self.trainer = Seq2SeqTrainer(
             model=self.model,
             args=self.training_args,
@@ -69,7 +81,7 @@ class trainer:
             tokenizer=self.tokenizer,
             train_dataset=self.traindataset,
             eval_dataset=self.testdataset,
-            compute_metrics=self.metric.compute
+            compute_metrics=compute_metrics,
         )
         
         self.trainer.train()
