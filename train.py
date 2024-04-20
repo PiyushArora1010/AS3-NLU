@@ -69,10 +69,10 @@ class trainer:
             decode_pred = self.tokenizer.batch_decode(predictions, skip_special_tokens=True)
             decode_labels = self.tokenizer.batch_decode(labels, skip_special_tokens=True)
 
-            # decoded_preds = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_pred]
-            # decoded_labels = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_labels]
+            decoded_preds = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_pred]
+            decoded_labels = ["\n".join(nltk.sent_tokenize(i.strip())) for i in decode_labels]
 
-            return self.metric.compute(predictions=decode_pred, references=decode_labels)
+            return self.metric.compute(predictions=decoded_preds, references=decoded_labels)
         
         self.trainer = Seq2SeqTrainer(
             model=self.model,
