@@ -87,7 +87,7 @@ class trainer:
             data_collator=self.datacollator,
             tokenizer=self.tokenizer,
             train_dataset=self.traindataset,
-            eval_dataset=self.testdataset,
+            eval_dataset=self.valdataset,
             compute_metrics=compute_metrics,
         )
         
