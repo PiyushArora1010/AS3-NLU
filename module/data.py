@@ -29,3 +29,8 @@ def IndicHeadlineGenerationData(tokenizer, samples=1000):
     dataset['test'] = dataset['test'].shuffle().select(range(samples))
 
     return dataset['train'], dataset['validation'], dataset['test']
+
+
+def dataset_2(tokenizer, samples=1000):
+    
+    return None, None, None
