@@ -25,8 +25,8 @@ class trainer:
 
     def _setModel(self):
         if 'bert' in self.model_name:
-            encoder = BertGenerationEncoder.from_pretrained(self.model_name, bos_token_id=101, eos_token_id=102)
-            decoder = BertGenerationDecoder.from_pretrained(self.model_name, add_cross_attention=True, is_decoder=True, bos_token_id=101, eos_token_id=102)
+            encoder = BertGenerationEncoder.from_pretrained(self.model_name)
+            decoder = BertGenerationDecoder.from_pretrained(self.model_name, add_cross_attention=True, is_decoder=True)
             self.model = EncoderDecoderModel(encoder=encoder, decoder=decoder).to(device)
         else:
             self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name).to(device)
