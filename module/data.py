@@ -25,5 +25,7 @@ def IndicHeadlineGenerationData(tokenizer, samples=1000):
     dataset['test'].set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
 
     dataset['train'] = dataset['train'].shuffle().select(range(samples))
+    dataset['validation'] = dataset['validation'].shuffle().select(range(samples))
+    dataset['test'] = dataset['test'].shuffle().select(range(samples))
 
     return dataset['train'], dataset['validation'], dataset['test']
