@@ -13,7 +13,7 @@ parser.add_argument('--model_name', type=str, help='model name', default="facebo
 parser.add_argument('--dataset_tag', type=str, help='dataset tag', default="IndicHeadlineGeneration")
 parser.add_argument('--run_name', type=str, help='run name', default="run1")
 parser.add_argument('--learning_rate', type=float, help='learning rate', default=5e-5)
-parser.add_argument('--batch_size', type=int, help='batch size', default=64)
+parser.add_argument('--batch_size', type=int, help='batch size', default=8)
 parser.add_argument('--weight_decay', type=float, help='weight decay', default=0.01)
 parser.add_argument('--epochs', type=int, help='epochs', default=5)
 parser.add_argument('--log_dir', type=str, help='log dir', default="logs/")
