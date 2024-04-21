@@ -13,8 +13,7 @@ def getModel(name):
 
     name = dicModels[name]
     if 'bert' in name:
-        bert2bert = EncoderDecoderModel.from_encoder_decoder_pretrained("bert-base-multilingual-cased", "bert-base-multilingual-cased")
-
+        model = EncoderDecoderModel.from_encoder_decoder_pretrained("bert-base-multilingual-cased", "bert-base-multilingual-cased")
     else:
         model = AutoModelForSeq2SeqLM.from_pretrained(name)
     return model
