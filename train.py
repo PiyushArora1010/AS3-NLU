@@ -79,9 +79,6 @@ class trainer:
 
         def compute_metrics(eval_pred):
             predictions, labels = eval_pred
-            ## remove padding
-            predictions = [[pred for pred in pred if pred != self.tokenizer.pad_token] for pred in predictions]
-            labels = [[label for label in label if label != self.tokenizer.pad_token] for label in labels]
 
             decode_pred = self.tokenizer.batch_decode(predictions)
             decode_labels = self.tokenizer.batch_decode(labels)
