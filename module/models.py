@@ -1,8 +1,9 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from transformers import EncoderDecoderModel, BertGenerationEncoder, BertGenerationDecoder
+from transformers import EncoderDecoderModel
+
 
 dicModels = {
-    'bert-base': 'ai4bharat/indic-bert',
+    'bert-base': 'bert-base-multilingual-cased',
     'bart-base': 'Someman/bart-hindi',
     't5-base': 'google/mt5-base',
 }
@@ -12,9 +13,8 @@ def getModel(name):
 
     name = dicModels[name]
     if 'bert' in name:
-        encoder = BertGenerationEncoder.from_pretrained(name)
-        decoder = BertGenerationDecoder.from_pretrained(name, add_cross_attention=True, is_decoder=True)
-        model = EncoderDecoderModel(encoder=encoder, decoder=decoder)
+        bert2bert = EncoderDecoderModel.from_encoder_decoder_pretrained("bert-base-multilingual-cased", "bert-base-multilingual-cased")
+
     else:
         model = AutoModelForSeq2SeqLM.from_pretrained(name)
     return model

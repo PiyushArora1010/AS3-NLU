@@ -23,6 +23,9 @@ class trainer:
     def _setModel(self):
         self.model = getModel(self.model_name).to(device)
         self.tokenizer = getTokenizer(self.model_name)
+        if 'bert' in self.model_name:
+            self.model.config.decoder_start_token_id = self.tokenizer.cls_token_id
+            self.model.config.pad_token_id = self.tokenizer.pad_token_id
     
     def _setDataset(self):
         if self.dataset_tag == "IndicHeadlineGeneration":
@@ -60,10 +63,6 @@ class trainer:
             logging_strategy='steps',
         )
 
-    def _setMetric(self):
-        self.metric = metricDic[self.metric]
-    
-
     def _train(self):
 
         def compute_metrics(eval_pred):
@@ -74,8 +73,11 @@ class trainer:
             decoded_preds = ["\n".join(i.strip()) for i in decode_pred]
             decoded_labels = ["\n".join(i.strip()) for i in decode_labels]
 
-            return self.metric.compute(predictions=decoded_preds, references=decoded_labels)
+            returnDic = {}
+            for key, metric in metricDic.items():
+                returnDic[key] = metric.compute(predictions=decoded_preds, references=decoded_labels)
 
+            return returnDic
         
         self.trainer = Seq2SeqTrainer(
             model=self.model,
@@ -96,8 +98,6 @@ class trainer:
         self._setDataset()
         print("[Setting Training Args]")
         self._setTrainingArgs()
-        print("[Setting Metric]")
-        self._setMetric()
         print("[Training]")
         self._train()
         print("[Training Done]")
