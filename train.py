@@ -1,14 +1,11 @@
 import os
-import nltk
 import torch
 
-
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
-from transformers import EncoderDecoderModel, BertGenerationEncoder, BertGenerationDecoder
 from transformers import DataCollatorForSeq2Seq
 
-from module.data import IndicHeadlineGenerationData
+from module.data import IndicHeadlineGenerationData, IndicTranslationData
+from module.models import getModel, getTokenizer
 from module.metrics import metricDic
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -24,17 +21,16 @@ class trainer:
             print(f"{self.log_dir}{self.run_name} already exists")
 
     def _setModel(self):
-        if 'bert' in self.model_name:
-            encoder = BertGenerationEncoder.from_pretrained(self.model_name)
-            decoder = BertGenerationDecoder.from_pretrained(self.model_name, add_cross_attention=True, is_decoder=True)
-            self.model = EncoderDecoderModel(encoder=encoder, decoder=decoder).to(device)
-        else:
-            self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name).to(device)
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+        self.model = getModel(self.model_name).to(device)
+        self.tokenizer = getTokenizer(self.model_name)
     
     def _setDataset(self):
         if self.dataset_tag == "IndicHeadlineGeneration":
             self.traindataset, self.valdataset, self.testdataset = IndicHeadlineGenerationData(self.tokenizer, self.samples)
+        
+        elif self.dataset_tag == "IndicTranslation":
+            self.traindataset, self.valdataset, self.testdataset = IndicTranslationData(self.tokenizer, self.samples)
+
         else:
             raise NotImplementedError("Dataset not implemented")
         
