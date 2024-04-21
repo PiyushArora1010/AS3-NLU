@@ -31,6 +31,7 @@ class trainer:
         self.tokenizer = getTokenizer(self.model_name)
         if 'bert' in self.model_name:
             self.model.config.decoder_start_token_id = self.tokenizer.cls_token_id
+            self.model.config.bos_token_id = self.tokenizer.cls_token_id
             self.model.config.pad_token_id = self.tokenizer.pad_token_id
     
     def _setDataset(self):
