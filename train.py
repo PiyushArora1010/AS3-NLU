@@ -20,6 +20,12 @@ class trainer:
         except:
             print(f"{self.log_dir}{self.run_name} already exists")
 
+        try:
+            os.makedirs(f"models/{self.run_name}")
+        except:
+            print(f"models/{self.run_name} already exists")
+
+
     def _setModel(self):
         self.model = getModel(self.model_name).to(device)
         self.tokenizer = getTokenizer(self.model_name)
@@ -46,7 +52,7 @@ class trainer:
         
     def _setTrainingArgs(self):
         self.training_args = Seq2SeqTrainingArguments(
-            f"{self.run_name}",
+            f"models/{self.run_name}",
             evaluation_strategy = "epoch",
             optim="adamw_torch",
             learning_rate=self.learning_rate,
