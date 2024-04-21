@@ -30,9 +30,9 @@ class trainer:
         self.model = getModel(self.model_name).to(device)
         self.tokenizer = getTokenizer(self.model_name)
         if 'bert' in self.model_name:
-            self.model.config.decoder_start_token_id = self.tokenizer.cls_token_id
-            self.model.config.bos_token_id = self.tokenizer.cls_token_id
-            self.model.config.pad_token_id = self.tokenizer.pad_token_id
+            self.model.decoder.decoder_start_token_id = self.tokenizer.cls_token_id
+            self.model.decoder.bos_token_id = self.tokenizer.cls_token_id
+            self.model.decoder.pad_token_id = self.tokenizer.pad_token_id
     
     def _setDataset(self):
         if self.dataset_tag == "IndicHeadlineGeneration":
@@ -68,6 +68,7 @@ class trainer:
             load_best_model_at_end = True,
             save_strategy='epoch',
             logging_strategy='steps',
+            overwrite_output_dir=True,
         )
 
     def _train(self):

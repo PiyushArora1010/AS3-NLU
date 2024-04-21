@@ -1,5 +1,5 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from transformers import EncoderDecoderModel
+from transformers import EncoderDecoderModel, BertGenerationEncoder, BertGenerationDecoder
 from transformers import BertTokenizer
 
 
@@ -11,18 +11,17 @@ dicModels = {
 
 def getModel(name):
     global dicModels
-
-    name = dicModels[name]
     if 'bert' in name:
-        model = EncoderDecoderModel.from_encoder_decoder_pretrained("bert-base-multilingual-cased", "bert-base-multilingual-cased")
+        name = dicModels[name]
+        encoder = BertGenerationEncoder.from_pretrained(name)
+        decoder = BertGenerationDecoder.from_pretrained(name)
+        model = EncoderDecoderModel(encoder=encoder, decoder=decoder)
     else:
+        name = dicModels[name]
         model = AutoModelForSeq2SeqLM.from_pretrained(name)
     return model
 
 def getTokenizer(name):
     global dicModels
     name = dicModels[name]
-    if 'bert' in name:
-        return BertTokenizer.from_pretrained(name, keep_accents=True)
-    else:
-        return AutoTokenizer.from_pretrained(name, keep_accents=True)
+    return AutoTokenizer.from_pretrained(name, keep_accents=True)
