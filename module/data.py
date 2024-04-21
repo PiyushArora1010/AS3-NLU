@@ -5,7 +5,7 @@ def tokenize_data_headline(tokenizer, example):
     target = example['target']
     source = tokenizer(source, truncation=True, padding='max_length', max_length=256)
     target = tokenizer(target, truncation=True, padding='max_length', max_length=256)
-    return {'input_ids': source.input_ids, 'attention_mask': source.attention_mask, 'labels': target.input_ids}
+    return {'input_ids': source.input_ids.flatten(), 'attention_mask': source.attention_mask.flatten(), 'labels': target.input_ids.flatten()}
 
 
 def IndicHeadlineGenerationData(tokenizer, samples=1000):
@@ -41,9 +41,9 @@ def tokenize_data_samanantar(tokenizer, example):
 
     # Prepare a dictionary with tokenized data
     return {
-        'input_ids': tokenized_input['input_ids'].squeeze(),
-        'attention_mask': tokenized_input['attention_mask'].squeeze(),
-        'labels': tokenized_target['input_ids'].squeeze()
+        'input_ids': tokenized_input['input_ids'].flatten(),
+        'attention_mask': tokenized_input['attention_mask'].flatten(),
+        'labels': tokenized_target['input_ids'].flatten()
     }
 
 def IndicTranslationData(tokenizer, samples=1000):
