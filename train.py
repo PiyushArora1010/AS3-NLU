@@ -33,6 +33,13 @@ class trainer:
             self.model.decoder.decoder_start_token_id = self.tokenizer.cls_token_id
             self.model.decoder.bos_token_id = self.tokenizer.cls_token_id
             self.model.decoder.pad_token_id = self.tokenizer.pad_token_id
+
+            self.model.config.decoder_start_token_id = self.tokenizer.cls_token_id
+            self.model.config.bos_token_id = self.tokenizer.cls_token_id
+            self.model.config.pad_token_id = self.tokenizer.pad_token_id
+
+            print(self.model._get_decoder_start_token_id())
+
     
     def _setDataset(self):
         if self.dataset_tag == "IndicHeadlineGeneration":
