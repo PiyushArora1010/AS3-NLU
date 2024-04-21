@@ -14,7 +14,7 @@ def getModel(name):
     if 'bert' in name:
         name = dicModels[name]
         encoder = BertGenerationEncoder.from_pretrained(name)
-        decoder = BertGenerationDecoder.from_pretrained(name)
+        decoder = BertGenerationDecoder.from_pretrained(name, add_cross_attention=True, is_decoder=True)
         model = EncoderDecoderModel(encoder=encoder, decoder=decoder)
     else:
         name = dicModels[name]
