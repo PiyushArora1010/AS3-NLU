@@ -3,8 +3,8 @@ from datasets import load_dataset, DatasetDict
 def tokenize_data_headline(tokenizer, example):
     source = example['input']
     target = example['target']
-    source = tokenizer(source, truncation=True, padding='max_length', max_length=256)
-    target = tokenizer(target, truncation=True, padding='max_length', max_length=256)
+    source = tokenizer.encode_plus(source, truncation=True, padding='max_length', max_length=256)
+    target = tokenizer.encode_plus(target, truncation=True, padding='max_length', max_length=256)
     return {'input_ids': source.input_ids.flatten(), 'attention_mask': source.attention_mask.flatten(), 'labels': target.input_ids.flatten()}
 
 
@@ -36,8 +36,8 @@ def tokenize_data_samanantar(tokenizer, example):
     Tokenizes the 'source' and 'target' columns of an example using the given tokenizer.
     """
     # Tokenize source and target texts
-    tokenized_input = tokenizer(example['src'], padding='max_length', truncation=True, return_tensors='pt')
-    tokenized_target = tokenizer(example['tgt'], padding='max_length', truncation=True, return_tensors='pt')
+    tokenized_input = tokenizer.encode_plus(example['src'], padding='max_length', truncation=True, return_tensors='pt')
+    tokenized_target = tokenizer.encode_plus(example['tgt'], padding='max_length', truncation=True, return_tensors='pt')
 
     # Prepare a dictionary with tokenized data
     return {
