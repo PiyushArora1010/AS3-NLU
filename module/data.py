@@ -5,7 +5,7 @@ def tokenize_data_headline(tokenizer, example):
     target = example['target']
     source = tokenizer(source, truncation=True, padding='max_length', max_length=256)
     target = tokenizer(target, truncation=True, padding='max_length', max_length=256)
-    return {'input_ids': source.input_ids.squeeze(), 'attention_mask': source.attention_mask.squeeze(), 'labels': target.input_ids.squeeze()}
+    return {'input_ids': source.input_ids, 'attention_mask': source.attention_mask, 'labels': target.input_ids}
 
 
 def IndicHeadlineGenerationData(tokenizer, samples=1000):
