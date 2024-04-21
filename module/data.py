@@ -12,6 +12,10 @@ def IndicHeadlineGenerationData(tokenizer, samples=1000):
     # ['id', 'input', 'target', 'url']
     dataset = load_dataset("ai4bharat/IndicHeadlineGeneration","hi")
 
+    dataset['train'] = dataset['train'].shuffle().select(range(samples))
+    dataset['validation'] = dataset['validation'].shuffle().select(range(samples))
+    dataset['test'] = dataset['test'].shuffle().select(range(samples))
+
     dataset['train'] = dataset['train'].map(lambda x: tokenize_data_headline(tokenizer, x), batched=True)
     dataset['validation'] = dataset['validation'].map(lambda x: tokenize_data_headline(tokenizer, x), batched=True)
     dataset['test'] = dataset['test'].map(lambda x: tokenize_data_headline(tokenizer, x), batched=True)
@@ -23,10 +27,6 @@ def IndicHeadlineGenerationData(tokenizer, samples=1000):
     dataset['train'].set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
     dataset['validation'].set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
     dataset['test'].set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
-
-    dataset['train'] = dataset['train'].shuffle().select(range(samples))
-    dataset['validation'] = dataset['validation'].shuffle().select(range(samples))
-    dataset['test'] = dataset['test'].shuffle().select(range(samples))
 
     return dataset['train'], dataset['validation'], dataset['test']
 
