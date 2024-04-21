@@ -1,5 +1,6 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from transformers import EncoderDecoderModel
+from transformers import BertTokenizer
 
 
 dicModels = {
@@ -21,4 +22,7 @@ def getModel(name):
 def getTokenizer(name):
     global dicModels
     name = dicModels[name]
-    return AutoTokenizer.from_pretrained(name, keep_accents=True)
+    if 'bert' in name:
+        return BertTokenizer.from_pretrained(name, keep_accents=True)
+    else:
+        return AutoTokenizer.from_pretrained(name, keep_accents=True)
